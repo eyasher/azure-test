@@ -5,7 +5,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-- group: 'New variable group 20-Sep'
+- group: 'New variabale group 20-sep'
 
 stages:
 
