@@ -1,7 +1,5 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Azure Pipelines - Build & Deploy to Azure Static Web App
+# Docs: https://aka.ms/yaml
 
 trigger:
 - main
@@ -9,11 +7,35 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+- group: 'New variabale group 20-sep'   # 👈 aapka variable group link ho gaya
+- name: app_location
+  value: '/'          # source code ka root folder
+- name: api_location
+  value: ''            # Azure Functions API folder (agar hai), warna khali
+- name: output_location
+  value: 'build'        # build output folder - React='build', Vue/Next(export)='dist' ya 'out', Angular='dist/<project>'
+
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
+# ---------- BUILD STAGE ----------
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
+
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
+# ---------- DEPLOY STAGE ----------
+- task: AzureStaticWebApp@0
+  inputs:
+    app_location: '$(app_location)'
+    api_location: '$(api_location)'
+    output_location: '$(output_location)'
+    azure_static_web_apps_api_token: $(dev)   # 👈 variable group se aa raha hai
+  displayName: 'Deploy to Azure Static Web App'
