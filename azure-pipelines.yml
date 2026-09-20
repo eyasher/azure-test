@@ -1,4 +1,4 @@
-# Azure Pipelines - Build & Deploy to Azure Static Web App
+# Azure Pipelines - Deploy to Azure Static Web App (Plain HTML/CSS/JS)
 # Docs: https://aka.ms/yaml
 
 trigger:
@@ -10,26 +10,15 @@ pool:
 variables:
 - group: 'New variabale group 20-sep'   # 👈 aapka variable group link ho gaya
 - name: app_location
-  value: '/'          # source code ka root folder
+  value: '/'          # source code ka root folder (jahan index.html hai)
 - name: api_location
   value: ''            # Azure Functions API folder (agar hai), warna khali
 - name: output_location
-  value: 'build'        # build output folder - React='build', Vue/Next(export)='dist' ya 'out', Angular='dist/<project>'
+  value: ''            # plain HTML - koi build output folder nahi, khali rakhein
 
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
-
-# ---------- BUILD STAGE ----------
-- task: NodeTool@0
-  inputs:
-    versionSpec: '18.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
 
 # ---------- DEPLOY STAGE ----------
 - task: AzureStaticWebApp@0
