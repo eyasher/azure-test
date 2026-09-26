@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: eyasherazuretest 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eyasherazuretest
+  template:
+    metadata:
+      labels:
+        app: eyasherazuretest 
+    spec:
+      containers:
+        - name: eyasherazuretest 
+          image: myacrregistry123.azurecr.io/eyasherazuretest
+          ports:
+          - containerPort: 80
