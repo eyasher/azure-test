@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-test-deployment
+  labels:
+    app: azure-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: azure-test
+  template:
+    metadata:
+      labels:
+        app: azure-test
+    spec:
+      containers:
+        - name: azure-test
+          image: myacrregistry123.azurecr.io/azure-test:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
